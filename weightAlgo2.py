@@ -213,7 +213,7 @@ if __name__ == '__main__':
     #     count = count +1
     # print(count)
 
-    with open('algo2fluidcontrol20comm.txt', 'w') as f:
+    with open('algo2fluidcontrol5comm.txt', 'w') as f:
         count = 0
         s = 0
         scores = []
@@ -221,10 +221,10 @@ if __name__ == '__main__':
             try:
                 print("seed: "+ str(s))
                 print("seed: "+ str(s),file=f)
-                wcom = asyn_fluidcWeight(my_graph2, 20, seed=s)
+                wcom = asyn_fluidcWeight(my_graph2, 5, seed=s)
                 wcoms = [list(x) for x in wcom]
                 wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
-                fluid = nx.algorithms.community.asyn_fluidc(my_graph2, 20, seed=s)
+                fluid = nx.algorithms.community.asyn_fluidc(my_graph2, 5, seed=s)
                 fluid2 = [list(x) for x in fluid]
                 fluid3 = cdlib.NodeClustering(fluid2, my_graph2, "FluidWeight")
                 print("weightedfluid")
@@ -256,7 +256,7 @@ if __name__ == '__main__':
         print(numpy.std(scores))
         print(numpy.std(scores), file=f)
 
-    with open('algo2louvainnorand20comm.txt', 'w') as f:
+    with open('algo2louvainnorand5comm.txt', 'w') as f:
         count = 0
         s = 0
         scores = []
@@ -264,10 +264,10 @@ if __name__ == '__main__':
             try:
                 print("seed: "+ str(s))
                 print("seed: "+ str(s),file=f)
-                wcom = asyn_fluidcWeight(my_graph2, 20, seed=s)
+                wcom = asyn_fluidcWeight(my_graph2, 5, seed=s)
                 wcoms = [list(x) for x in wcom]
                 wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
-                louvain = algorithms.louvain(my_graph2, weight='weight', resolution=0.6)
+                louvain = algorithms.louvain(my_graph2, weight='weight', resolution=4)
                 print("weightedfluid")
                 print(wcoms2.communities)
                 print("Benchmark Fluid")
@@ -298,7 +298,7 @@ if __name__ == '__main__':
         print(numpy.std(scores))
         print(numpy.std(scores), file=f)
 
-    with open('algo2louvainrand20comm.txt', 'w') as f:
+    with open('algo2louvainrand5comm.txt', 'w') as f:
         count = 0
         s = 0
         scores = []
@@ -306,11 +306,11 @@ if __name__ == '__main__':
             try:
                 print("seed: "+ str(s))
                 print("seed: "+ str(s),file=f)
-                wcom = asyn_fluidcWeight(my_graph2, 20, seed=s)
+                wcom = asyn_fluidcWeight(my_graph2, 5, seed=s)
                 wcoms = [list(x) for x in wcom]
                 wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
                 #Adjust resolution to get community size [4,2.5,1.41,1,0.9,0.72,0.6] -> [5,7,10,13,15,17,20]
-                louvain = algorithms.louvain(my_graph2, weight='weight',randomize=1, resolution=0.6)
+                louvain = algorithms.louvain(my_graph2, weight='weight',randomize=1, resolution=4)
                 print("weightedfluid")
                 print(wcoms2.communities)
                 print("Benchmark Fluid")

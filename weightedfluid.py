@@ -190,9 +190,9 @@ if __name__ == '__main__':
         my_graph.edges[start, end]['weight'] = random.random()
 
 
-    name2 = "/content/drive/MyDrive/4F90/sg_infectious_graphs/sg_infectious_graphs/weightededgesX_2009_06_02.out"
+    name2 = "/home/james/4F90/sg_infectious_graphs/weightededgesX_2009_06_02.out"
     name = "/home/james/4F90/sg_infectious_graphs/weightededgesX_2009_07_15.out"
-    fh2 = open(name, "rb")
+    fh2 = open(name2, "rb")
     my_graph2 = nx.read_weighted_edgelist(fh2)
     fh2.close()
     graphs = (my_graph2.subgraph(c) for c in nx.connected_components(my_graph2))
@@ -220,118 +220,118 @@ if __name__ == '__main__':
     resolutions = [4,2.5,1.41,1,0.9,0.72,0.6]
     louvain = algorithms.louvain(my_graph2, weight='weight', resolution=1)
 
-    count = 0
-    for i in fluid3.communities:
-        count = count +1
-    print(count)
+    # count = 0
+    # for i in fluid3.communities:
+    #     count = count +1
+    # print(count)
 
     count = 0
     for i in louvain.communities:
         count = count +1
     print(count)
 
-    with open('algo1fluidcontrol20comm.txt', 'w') as f:
+    # with open('algo1fluidcontrol20comm.txt', 'w') as f:
 
-        scores = []
-        for s in range(30):
-            print("seed: "+ str(s))
-            print("seed: "+ str(s),file=f)
-            wcom = weight_fluid(my_graph2, 20, seed=s)
-            wcoms = [list(x) for x in wcom]
-            wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
-            fluid = nx.algorithms.community.asyn_fluidc(my_graph2, 20, seed=s)
-            fluid2 = [list(x) for x in fluid]
-            fluid3 = cdlib.NodeClustering(fluid2, my_graph2, "FluidWeight")
-            print("weightedfluid")
-            print(wcoms2.communities)
-            print("Benchmark Fluid")
-            print(fluid3.communities)
-            print("weightedfluid", file=f)
-            print(wcoms2.communities, file=f)
-            print("Benchmark Fluid", file=f)
-            print(fluid3.communities,file=f)
-            scores.append(evaluation.adjusted_rand_index(wcoms2, fluid3).score)
-            print(evaluation.adjusted_rand_index(wcoms2, fluid3), file=f)
-        print("Adjusted rand indexes")
-        print("Adjusted rand indexes", file=f)
-        print(scores)
-        print(scores, file=f)
-        print("Mean")
-        print("Mean", file=f)
-        print(numpy.mean(scores))
-        print(numpy.mean(scores),file=f)
-        print("Standard deviation")
-        print("Standard deviation", file=f)
-        print(numpy.std(scores))
-        print(numpy.std(scores), file=f)
+    #     scores = []
+    #     for s in range(30):
+    #         print("seed: "+ str(s))
+    #         print("seed: "+ str(s),file=f)
+    #         wcom = weight_fluid(my_graph2, 20, seed=s)
+    #         wcoms = [list(x) for x in wcom]
+    #         wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
+    #         fluid = nx.algorithms.community.asyn_fluidc(my_graph2, 20, seed=s)
+    #         fluid2 = [list(x) for x in fluid]
+    #         fluid3 = cdlib.NodeClustering(fluid2, my_graph2, "FluidWeight")
+    #         print("weightedfluid")
+    #         print(wcoms2.communities)
+    #         print("Benchmark Fluid")
+    #         print(fluid3.communities)
+    #         print("weightedfluid", file=f)
+    #         print(wcoms2.communities, file=f)
+    #         print("Benchmark Fluid", file=f)
+    #         print(fluid3.communities,file=f)
+    #         scores.append(evaluation.adjusted_rand_index(wcoms2, fluid3).score)
+    #         print(evaluation.adjusted_rand_index(wcoms2, fluid3), file=f)
+    #     print("Adjusted rand indexes")
+    #     print("Adjusted rand indexes", file=f)
+    #     print(scores)
+    #     print(scores, file=f)
+    #     print("Mean")
+    #     print("Mean", file=f)
+    #     print(numpy.mean(scores))
+    #     print(numpy.mean(scores),file=f)
+    #     print("Standard deviation")
+    #     print("Standard deviation", file=f)
+    #     print(numpy.std(scores))
+    #     print(numpy.std(scores), file=f)
 
-    with open('algo1louvainnorand20comm.txt', 'w') as f:
+    # with open('algo1louvainnorand20comm.txt', 'w') as f:
 
-        scores = []
-        for s in range(30):
-            print("seed: "+ str(s))
-            print("seed: "+ str(s),file=f)
-            wcom = weight_fluid(my_graph2, 20, seed=s)
-            wcoms = [list(x) for x in wcom]
-            wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
-            louvain = algorithms.louvain(my_graph2, weight='weight', resolution=0.6)
-            print("weightedfluid")
-            print(wcoms2.communities)
-            print("Benchmark Fluid")
-            print(louvain.communities)
-            print("weightedfluid", file=f)
-            print(wcoms2.communities, file=f)
-            print("Benchmark Fluid", file=f)
-            print(louvain.communities,file=f)
-            print(evaluation.adjusted_rand_index(wcoms2, louvain))
-            print(evaluation.adjusted_rand_index(wcoms2, louvain),file=f)
-            scores.append(evaluation.adjusted_rand_index(wcoms2, louvain).score)
-        print("Adjusted rand indexes")
-        print("Adjusted rand indexes", file=f)
-        print(scores)
-        print(scores, file=f)
-        print("Mean")
-        print("Mean", file=f)
-        print(numpy.mean(scores))
-        print(numpy.mean(scores),file=f)
-        print("Standard deviation")
-        print("Standard deviation", file=f)
-        print(numpy.std(scores))
-        print(numpy.std(scores), file=f)
+    #     scores = []
+    #     for s in range(30):
+    #         print("seed: "+ str(s))
+    #         print("seed: "+ str(s),file=f)
+    #         wcom = weight_fluid(my_graph2, 20, seed=s)
+    #         wcoms = [list(x) for x in wcom]
+    #         wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
+    #         louvain = algorithms.louvain(my_graph2, weight='weight', resolution=0.6)
+    #         print("weightedfluid")
+    #         print(wcoms2.communities)
+    #         print("Benchmark Fluid")
+    #         print(louvain.communities)
+    #         print("weightedfluid", file=f)
+    #         print(wcoms2.communities, file=f)
+    #         print("Benchmark Fluid", file=f)
+    #         print(louvain.communities,file=f)
+    #         print(evaluation.adjusted_rand_index(wcoms2, louvain))
+    #         print(evaluation.adjusted_rand_index(wcoms2, louvain),file=f)
+    #         scores.append(evaluation.adjusted_rand_index(wcoms2, louvain).score)
+    #     print("Adjusted rand indexes")
+    #     print("Adjusted rand indexes", file=f)
+    #     print(scores)
+    #     print(scores, file=f)
+    #     print("Mean")
+    #     print("Mean", file=f)
+    #     print(numpy.mean(scores))
+    #     print(numpy.mean(scores),file=f)
+    #     print("Standard deviation")
+    #     print("Standard deviation", file=f)
+    #     print(numpy.std(scores))
+    #     print(numpy.std(scores), file=f)
 
-    with open('algo1louvainrand20comm.txt', 'w') as f:
-        scores = []
-        for s in range(30):
-            print("seed: "+ str(s))
-            print("seed: "+ str(s),file=f)
-            wcom = weight_fluid(my_graph2, 20, seed=s)
-            wcoms = [list(x) for x in wcom]
-            wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
-            #Adjust resolution to get community size [4,2.5,1.41,1,0.9,0.72,0.6] -> [5,7,10,13,15,17,20]
-            louvain = algorithms.louvain(my_graph2, weight='weight',randomize=1, resolution=0.6)
-            print("weightedfluid")
-            print(wcoms2.communities)
-            print("Benchmark Fluid")
-            print(louvain.communities)
-            print("weightedfluid", file=f)
-            print(wcoms2.communities, file=f)
-            print("Benchmark Fluid", file=f)
-            print(louvain.communities,file=f)
-            print(evaluation.adjusted_rand_index(wcoms2, louvain))
-            print(evaluation.adjusted_rand_index(wcoms2, louvain),file=f)
-            scores.append(evaluation.adjusted_rand_index(wcoms2, louvain).score)
-        print("Adjusted rand indexes")
-        print("Adjusted rand indexes", file=f)
-        print(scores)
-        print(scores, file=f)
-        print("Mean")
-        print("Mean", file=f)
-        print(numpy.mean(scores))
-        print(numpy.mean(scores),file=f)
-        print("Standard deviation")
-        print("Standard deviation", file=f)
-        print(numpy.std(scores))
-        print(numpy.std(scores), file=f)
+    # with open('algo1louvainrand20comm.txt', 'w') as f:
+    #     scores = []
+    #     for s in range(30):
+    #         print("seed: "+ str(s))
+    #         print("seed: "+ str(s),file=f)
+    #         wcom = weight_fluid(my_graph2, 20, seed=s)
+    #         wcoms = [list(x) for x in wcom]
+    #         wcoms2 = cdlib.NodeClustering(wcoms, my_graph2, "FluidWeight")
+    #         #Adjust resolution to get community size [4,2.5,1.41,1,0.9,0.72,0.6] -> [5,7,10,13,15,17,20]
+    #         louvain = algorithms.louvain(my_graph2, weight='weight',randomize=1, resolution=0.6)
+    #         print("weightedfluid")
+    #         print(wcoms2.communities)
+    #         print("Benchmark Fluid")
+    #         print(louvain.communities)
+    #         print("weightedfluid", file=f)
+    #         print(wcoms2.communities, file=f)
+    #         print("Benchmark Fluid", file=f)
+    #         print(louvain.communities,file=f)
+    #         print(evaluation.adjusted_rand_index(wcoms2, louvain))
+    #         print(evaluation.adjusted_rand_index(wcoms2, louvain),file=f)
+    #         scores.append(evaluation.adjusted_rand_index(wcoms2, louvain).score)
+    #     print("Adjusted rand indexes")
+    #     print("Adjusted rand indexes", file=f)
+    #     print(scores)
+    #     print(scores, file=f)
+    #     print("Mean")
+    #     print("Mean", file=f)
+    #     print(numpy.mean(scores))
+    #     print(numpy.mean(scores),file=f)
+    #     print("Standard deviation")
+    #     print("Standard deviation", file=f)
+    #     print(numpy.std(scores))
+    #     print(numpy.std(scores), file=f)
 
         # for s in range(1, 90, 3):
         #     print("seed: "+ str(s))
