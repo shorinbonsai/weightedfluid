@@ -36,161 +36,167 @@ if __name__ == '__main__':
     fluid2 = [list(x) for x in fluid]
     fluid3 = cdlib.NodeClustering(fluid2, testg, "FluidWeight")
 
-    wcom = wf1.weight_fluid(testg, 9, seed=5)
+    wcom = wf1.weight_fluid(testg, 10, seed=3)
     wcoms = [list(x) for x in wcom]
     wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
-    print("Alg1")
-    print(evaluation.newman_girvan_modularity(testg, wcoms2).score)
+
+    w2com = wf2.asyn_fluidcWeight(testg, 10, seed=3)
+    w2coms = [list(x) for x in w2com]
+    w2coms2 = cdlib.NodeClustering(w2coms, testg, "FluidWeight")
+
+    print(evaluation.adjusted_rand_index(wcoms2, w2coms2))
+    # print("Alg1")
+    # print(evaluation.newman_girvan_modularity(testg, wcoms2).score)
 
     # louvain = algorithms.louvain(testg, weight='weight', resolution=1.5)
 
     reso = [14,3.5,1.5,1,0.7,0.6,0.4]
     comNumb = [5,7,10,13,15,17,20]
 
-    with open('modularity.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        print("Louvain")
-        writer.writerow(["05/06"])
-        writer.writerow(["Louvain"])
-        writer.writerow(["Communities", "Modularity"])
-        for r, c in zip(reso, comNumb):
-            scores = []
-            scores.append(c)
-            for s in range(30):
-                louvain = algorithms.louvain(testg, weight='weight', resolution=r)
-                print("Communities: "+ str(c))
-                rslt = evaluation.newman_girvan_modularity(testg, louvain).score
-                print(rslt)
-                scores.append(rslt)
-            writer.writerow(scores)
-        print("\n")
-        writer.writerow("\n")
-        print("Fluid")
-        writer.writerow(["Fluid"])
-        writer.writerow(["Communities", "Modularity"])
-        for r in comNumb:
-            scores = []
-            scores.append(r)
-            for s in range(30):
-                fluid = nx.algorithms.community.asyn_fluidc(testg, r, seed=s)
-                fluid2 = [list(x) for x in fluid]
-                fluid3 = cdlib.NodeClustering(fluid2, testg, "FluidWeight")
-                rslt = evaluation.newman_girvan_modularity(testg, fluid3).score
-                print("Communities: "+ str(r))
-                print(rslt)
-                scores.append(rslt)
-            writer.writerow(scores)
-        print("Algorithm 1")
-        writer.writerow("\n")
-        writer.writerow(["Algorithm 1"])
-        writer.writerow(["Communities", "Modularity"])
-        for r in comNumb:
-            scores = []
-            scores.append(r)
-            for s in range(30):
-                wcom = wf1.weight_fluid(testg, r, seed=s)
-                wcoms = [list(x) for x in wcom]
-                wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
-                rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
-                print("Communities: "+ str(r))
-                print(rslt)
-                scores.append(rslt)
-            writer.writerow(scores)
-        print("Algorithm 2")
-        writer.writerow("\n")
-        writer.writerow(["Algorithm 2"])
-        writer.writerow(["Communities", "Modularity"])
-        for r in comNumb:
-            count = 0
-            s = 0
-            scores = []
-            scores.append(r)
-            while count <30:
-                try:
-                    wcom = wf2.asyn_fluidcWeight(testg, r, seed=s)
-                    wcoms = [list(x) for x in wcom]
-                    wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
-                    rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
-                    print("Communities: "+ str(r))
-                    print(rslt)
-                    scores.append(rslt)
-                    count+=1
-                    s+=1
-                except:
-                    s+=1
-            writer.writerow(scores)
-###############
-        testg = nx.read_weighted_edgelist(fh2)
-        fh2.close()
-        print("Louvain")
-        writer.writerow(["07/15"])
-        writer.writerow(["Louvain"])
-        writer.writerow(["Communities", "Modularity"])
-        for r, c in zip(reso, comNumb):
-            scores = []
-            scores.append(c)
-            for s in range(30):
-                louvain = algorithms.louvain(testg, weight='weight', resolution=r)
-                print("Communities: "+ str(c))
-                rslt = evaluation.newman_girvan_modularity(testg, louvain).score
-                print(rslt)
-                scores.append(rslt)
-            writer.writerow(scores)
-        print("\n")
-        writer.writerow("\n")
-        print("Fluid")
-        writer.writerow(["Fluid"])
-        writer.writerow(["Communities", "Modularity"])
-        for r in comNumb:
-            scores = []
-            scores.append(r)
-            for s in range(30):
-                fluid = nx.algorithms.community.asyn_fluidc(testg, r, seed=s)
-                fluid2 = [list(x) for x in fluid]
-                fluid3 = cdlib.NodeClustering(fluid2, testg, "FluidWeight")
-                rslt = evaluation.newman_girvan_modularity(testg, fluid3).score
-                print("Communities: "+ str(r))
-                print(rslt)
-                scores.append(rslt)
-            writer.writerow(scores)
-        print("Algorithm 1")
-        writer.writerow("\n")
-        writer.writerow(["Algorithm 1"])
-        writer.writerow(["Communities", "Modularity"])
-        for r in comNumb:
-            scores = []
-            scores.append(r)
-            for s in range(30):
-                wcom = wf1.weight_fluid(testg, r, seed=s)
-                wcoms = [list(x) for x in wcom]
-                wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
-                rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
-                print("Communities: "+ str(r))
-                print(rslt)
-                scores.append(rslt)
-            writer.writerow(scores)
-        print("Algorithm 2")
-        writer.writerow("\n")
-        writer.writerow(["Algorithm 2"])
-        writer.writerow(["Communities", "Modularity"])
-        for r in comNumb:
-            count = 0
-            s = 0
-            scores = []
-            scores.append(r)
-            while count <30:
-                try:
-                    wcom = wf2.asyn_fluidcWeight(testg, r, seed=s)
-                    wcoms = [list(x) for x in wcom]
-                    wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
-                    rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
-                    print("Communities: "+ str(r))
-                    print(rslt)
-                    scores.append(rslt)
-                    count+=1
-                    s+=1
-                except:
-                    s+=1
-            writer.writerow(scores)
+#     with open('modularityV3.csv', 'w', newline='') as file:
+#         writer = csv.writer(file)
+#         print("Louvain")
+#         writer.writerow(["05/06"])
+#         writer.writerow(["Louvain"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r, c in zip(reso, comNumb):
+#             scores = []
+#             scores.append(c)
+#             for s in range(30):
+#                 louvain = algorithms.louvain(testg, weight='weight', resolution=r, randomize=True)
+#                 print("Communities: "+ str(c))
+#                 rslt = evaluation.newman_girvan_modularity(testg, louvain).score
+#                 print(rslt)
+#                 scores.append(rslt)
+#             writer.writerow(scores)
+#         print("\n")
+#         writer.writerow("\n")
+#         print("Fluid")
+#         writer.writerow(["Fluid"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r in comNumb:
+#             scores = []
+#             scores.append(r)
+#             for s in range(30):
+#                 fluid = nx.algorithms.community.asyn_fluidc(testg, r, seed=s)
+#                 fluid2 = [list(x) for x in fluid]
+#                 fluid3 = cdlib.NodeClustering(fluid2, testg, "FluidWeight")
+#                 rslt = evaluation.newman_girvan_modularity(testg, fluid3).score
+#                 print("Communities: "+ str(r))
+#                 print(rslt)
+#                 scores.append(rslt)
+#             writer.writerow(scores)
+#         print("Algorithm 1")
+#         writer.writerow("\n")
+#         writer.writerow(["Algorithm 1"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r in comNumb:
+#             scores = []
+#             scores.append(r)
+#             for s in range(30):
+#                 wcom = wf1.weight_fluid(testg, r, seed=s)
+#                 wcoms = [list(x) for x in wcom]
+#                 wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
+#                 rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
+#                 print("Communities: "+ str(r))
+#                 print(rslt)
+#                 scores.append(rslt)
+#             writer.writerow(scores)
+#         print("Algorithm 2")
+#         writer.writerow("\n")
+#         writer.writerow(["Algorithm 2"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r in comNumb:
+#             count = 0
+#             s = 0
+#             scores = []
+#             scores.append(r)
+#             while count <30:
+#                 try:
+#                     wcom = wf2.asyn_fluidcWeight(testg, r, seed=s)
+#                     wcoms = [list(x) for x in wcom]
+#                     wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
+#                     rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
+#                     print("Communities: "+ str(r))
+#                     print(rslt)
+#                     scores.append(rslt)
+#                     count+=1
+#                     s+=1
+#                 except:
+#                     s+=1
+#             writer.writerow(scores)
+# ###############
+#         testg = nx.read_weighted_edgelist(fh2)
+#         fh2.close()
+#         print("Louvain")
+#         writer.writerow(["07/15"])
+#         writer.writerow(["Louvain"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r, c in zip(reso, comNumb):
+#             scores = []
+#             scores.append(c)
+#             for s in range(30):
+#                 louvain = algorithms.louvain(testg, weight='weight', resolution=r, randomize=True)
+#                 print("Communities: "+ str(c))
+#                 rslt = evaluation.newman_girvan_modularity(testg, louvain).score
+#                 print(rslt)
+#                 scores.append(rslt)
+#             writer.writerow(scores)
+#         print("\n")
+#         writer.writerow("\n")
+#         print("Fluid")
+#         writer.writerow(["Fluid"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r in comNumb:
+#             scores = []
+#             scores.append(r)
+#             for s in range(30):
+#                 fluid = nx.algorithms.community.asyn_fluidc(testg, r, seed=s)
+#                 fluid2 = [list(x) for x in fluid]
+#                 fluid3 = cdlib.NodeClustering(fluid2, testg, "FluidWeight")
+#                 rslt = evaluation.newman_girvan_modularity(testg, fluid3).score
+#                 print("Communities: "+ str(r))
+#                 print(rslt)
+#                 scores.append(rslt)
+#             writer.writerow(scores)
+#         print("Algorithm 1")
+#         writer.writerow("\n")
+#         writer.writerow(["Algorithm 1"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r in comNumb:
+#             scores = []
+#             scores.append(r)
+#             for s in range(30):
+#                 wcom = wf1.weight_fluid(testg, r, seed=s)
+#                 wcoms = [list(x) for x in wcom]
+#                 wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
+#                 rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
+#                 print("Communities: "+ str(r))
+#                 print(rslt)
+#                 scores.append(rslt)
+#             writer.writerow(scores)
+#         print("Algorithm 2")
+#         writer.writerow("\n")
+#         writer.writerow(["Algorithm 2"])
+#         writer.writerow(["Communities", "Modularity"])
+#         for r in comNumb:
+#             count = 0
+#             s = 0
+#             scores = []
+#             scores.append(r)
+#             while count <30:
+#                 try:
+#                     wcom = wf2.asyn_fluidcWeight(testg, r, seed=s)
+#                     wcoms = [list(x) for x in wcom]
+#                     wcoms2 = cdlib.NodeClustering(wcoms, testg, "FluidWeight")
+#                     rslt = evaluation.newman_girvan_modularity(testg, wcoms2).score
+#                     print("Communities: "+ str(r))
+#                     print(rslt)
+#                     scores.append(rslt)
+#                     count+=1
+#                     s+=1
+#                 except:
+#                     s+=1
+#             writer.writerow(scores)
 
     # writer.close()
